@@ -8,11 +8,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.DrawModifier
 import androidx.compose.ui.geometry.Offset
@@ -25,19 +31,33 @@ class ModifierDemoActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // OrderDemo()
-//            TextWithYellowBackground(
-//                text = "Hello Compose",
-//                modifier = Modifier.padding(32.dp)
-//            )
-            Text(
-                text = "Hello Compose",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .drawYellowCross(),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.h1
-            )
+            Column(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.5F)
+                ) {
+                    OrderDemo()
+                }
+                TextWithYellowBackground(
+                    text = "Hello Compose",
+                    modifier = Modifier.padding(32.dp)
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.5F)
+                ) {
+                    Text(
+                        text = "Hello Compose",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .drawYellowCross(),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                }
+            }
         }
     }
 }
