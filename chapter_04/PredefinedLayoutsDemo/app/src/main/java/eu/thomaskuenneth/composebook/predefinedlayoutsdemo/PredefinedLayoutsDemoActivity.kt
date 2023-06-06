@@ -6,12 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Text
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,9 +32,9 @@ class PredefinedLayoutsDemoActivity : ComponentActivity() {
 @Composable
 @Preview
 fun PredefinedLayoutsDemo() {
-    val red = remember { mutableStateOf(true) }
-    val green = remember { mutableStateOf(true) }
-    val blue = remember { mutableStateOf(true) }
+    var red by remember { mutableStateOf(true) }
+    var green by remember { mutableStateOf(true) }
+    var blue by remember { mutableStateOf(true) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,29 +42,32 @@ fun PredefinedLayoutsDemo() {
     ) {
         CheckboxWithLabel(
             label = stringResource(id = R.string.red),
-            state = red
+            checked = red,
+            onClicked = { red = it }
         )
         CheckboxWithLabel(
             label = stringResource(id = R.string.green),
-            state = green
+            checked = green,
+            onClicked = { green = it }
         )
         CheckboxWithLabel(
             label = stringResource(id = R.string.blue),
-            state = blue
+            checked = blue,
+            onClicked = { blue = it }
         )
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
         ) {
-            if (red.value) {
+            if (red) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(Color.Red)
                 )
             }
-            if (green.value) {
+            if (green) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -71,7 +75,7 @@ fun PredefinedLayoutsDemo() {
                         .background(Color.Green)
                 )
             }
-            if (blue.value) {
+            if (blue) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -84,16 +88,20 @@ fun PredefinedLayoutsDemo() {
 }
 
 @Composable
-fun CheckboxWithLabel(label: String, state: MutableState<Boolean>) {
+fun CheckboxWithLabel(
+    label: String,
+    checked: Boolean,
+    onClicked: (Boolean) -> Unit
+) {
     Row(
         modifier = Modifier.clickable {
-            state.value = !state.value
+            onClicked(!checked)
         }, verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
-            checked = state.value,
+            checked = checked,
             onCheckedChange = {
-                state.value = it
+                onClicked(it)
             }
         )
         Text(
