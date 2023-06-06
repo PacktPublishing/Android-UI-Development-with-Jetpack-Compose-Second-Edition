@@ -25,6 +25,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 class ModifierDemoActivity : ComponentActivity() {
@@ -48,18 +49,24 @@ class ModifierDemoActivity : ComponentActivity() {
                         .fillMaxWidth()
                         .weight(0.5F)
                 ) {
-                    Text(
-                        text = "Hello Compose",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .drawYellowCross(),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineLarge
-                    )
+                    TextWithYellowCross()
                 }
             }
         }
     }
+}
+
+@Composable
+@Preview(widthDp = 400, heightDp = 200)
+fun TextWithYellowCross() {
+    Text(
+        text = "Hello Compose",
+        modifier = Modifier
+            .fillMaxSize()
+            .drawYellowCross(),
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.headlineLarge
+    )
 }
 
 @Composable
