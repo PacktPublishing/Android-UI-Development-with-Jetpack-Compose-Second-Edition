@@ -11,9 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,9 +38,9 @@ class ConstraintLayoutDemoActivity : ComponentActivity() {
 @Composable
 @Preview
 fun ConstraintLayoutDemo() {
-    val red = remember { mutableStateOf(true) }
-    val green = remember { mutableStateOf(true) }
-    val blue = remember { mutableStateOf(true) }
+    var red by remember { mutableStateOf(true) }
+    var green by remember { mutableStateOf(true) }
+    var blue by remember { mutableStateOf(true) }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -48,26 +49,29 @@ fun ConstraintLayoutDemo() {
         val (cbRed, cbGreen, cbBlue, boxRed, boxGreen, boxBlue) = createRefs()
         CheckboxWithLabel(
             label = stringResource(id = R.string.red),
-            state = red,
+            checked = red,
+            onClicked = { red = it },
             modifier = Modifier.constrainAs(cbRed) {
                 top.linkTo(parent.top)
             }
         )
         CheckboxWithLabel(
             label = stringResource(id = R.string.green),
-            state = green,
+            checked = green,
+            onClicked = { green = it },
             modifier = Modifier.constrainAs(cbGreen) {
                 top.linkTo(cbRed.bottom)
             }
         )
         CheckboxWithLabel(
             label = stringResource(id = R.string.blue),
-            state = blue,
+            checked = blue,
+            onClicked = { blue = it },
             modifier = Modifier.constrainAs(cbBlue) {
                 top.linkTo(cbGreen.bottom)
             }
         )
-        if (red.value) {
+        if (red) {
             Box(
                 modifier = Modifier
                     .background(Color.Red)
@@ -81,7 +85,7 @@ fun ConstraintLayoutDemo() {
                     }
             )
         }
-        if (green.value) {
+        if (green) {
             Box(
                 modifier = Modifier
                     .background(Color.Green)
@@ -95,7 +99,7 @@ fun ConstraintLayoutDemo() {
                     }
             )
         }
-        if (blue.value) {
+        if (blue) {
             Box(
                 modifier = Modifier
                     .background(Color.Blue)
@@ -116,17 +120,18 @@ fun ConstraintLayoutDemo() {
 @Composable
 fun CheckboxWithLabel(
     label: String,
-    state: MutableState<Boolean>,
+    checked: Boolean,
+    onClicked: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(modifier = modifier.clickable {
-        state.value = !state.value
+        onClicked(!checked)
     }) {
         val (checkbox, text) = createRefs()
         Checkbox(
-            checked = state.value,
+            checked = checked,
             onCheckedChange = {
-                state.value = it
+                onClicked(it)
             },
             modifier = Modifier.constrainAs(checkbox) {
             }
