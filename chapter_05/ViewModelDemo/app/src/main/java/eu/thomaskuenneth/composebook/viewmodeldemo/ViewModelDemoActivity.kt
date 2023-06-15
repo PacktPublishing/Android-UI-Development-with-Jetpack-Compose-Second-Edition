@@ -5,9 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.TextField
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,9 +53,9 @@ fun ViewModelDemo() {
     val state3 = viewModel.text.observeAsState()
     state3.value?.let {
         Column(modifier = Modifier.fillMaxWidth()) {
-            MyTextField(state1) { state1.value = it }
-            MyTextField(state2) { state2.value = it }
-            MyTextField(state3) {
+            MyTextField(state1.value) { state1.value = it }
+            MyTextField(state2.value) { state2.value = it }
+            MyTextField(state3.value) {
                 viewModel.setText(it)
             }
         }
@@ -65,10 +64,10 @@ fun ViewModelDemo() {
 
 @Composable
 fun MyTextField(
-    value: State<String?>,
+    value: String?,
     onValueChange: (String) -> Unit
 ) {
-    value.value?.let {
+    value?.let {
         TextField(
             value = it,
             onValueChange = onValueChange,

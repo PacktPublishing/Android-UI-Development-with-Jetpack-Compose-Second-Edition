@@ -5,16 +5,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import java.util.*
+import java.util.Date
 import kotlin.random.Random
 
 class StateDemoActivity : ComponentActivity() {
@@ -30,17 +36,21 @@ class StateDemoActivity : ComponentActivity() {
 @Composable
 @Preview
 fun TextFieldDemo() {
-    val state = remember { mutableStateOf(TextFieldValue("")) }
-    TextFieldDemo(state)
+    val state = remember { mutableStateOf("") }
+    TextFieldDemo(
+        value = state.value,
+        onValueChange = { state.value = it }
+    )
 }
 
 @Composable
-fun TextFieldDemo(state: MutableState<TextFieldValue>) {
+fun TextFieldDemo(
+    value: String,
+    onValueChange: (String) -> Unit
+) {
     TextField(
-        value = state.value,
-        onValueChange = {
-            state.value = it
-        },
+        value = value,
+        onValueChange = onValueChange,
         placeholder = { Text("Hello") },
         modifier = Modifier.fillMaxWidth()
     )

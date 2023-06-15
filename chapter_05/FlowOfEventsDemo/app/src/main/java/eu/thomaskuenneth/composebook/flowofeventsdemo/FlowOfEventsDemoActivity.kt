@@ -9,8 +9,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -33,12 +41,12 @@ class FlowOfEventsDemoActivity : ComponentActivity() {
 fun FlowOfEventsDemo() {
     val strCelsius = stringResource(id = R.string.celsius)
     val strFahrenheit = stringResource(id = R.string.fahrenheit)
-    val temperature = remember { mutableStateOf("") }
-    val scale = remember { mutableStateOf(R.string.celsius) }
+    var temperature by remember { mutableStateOf("") }
+    var scale by remember { mutableStateOf(R.string.celsius) }
     var convertedTemperature by remember { mutableStateOf(Float.NaN) }
     val calc = {
-        val temp = temperature.value.toFloat()
-        convertedTemperature = if (scale.value == R.string.celsius)
+        val temp = temperature.toFloat()
+        convertedTemperature = if (scale == R.string.celsius)
             (temp * 1.8F) + 32F
         else
             (temp - 32F) / 1.8F
@@ -48,12 +56,12 @@ fun FlowOfEventsDemo() {
             ""
         else
             "${convertedTemperature}${
-                if (scale.value == R.string.celsius)
+                if (scale == R.string.celsius)
                     strFahrenheit
                 else strCelsius
             }"
     }
-    val enabled = temperature.value.isNotBlank()
+    val enabled = temperature.isNotBlank()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,11 +69,13 @@ fun FlowOfEventsDemo() {
     ) {
         TemperatureTextField(
             temperature = temperature,
+            onValueChange = { temperature = it },
             modifier = Modifier.padding(bottom = 16.dp),
             callback = calc
         )
         TemperatureScaleButtonGroup(
             selected = scale,
+            radioButtonClicked = { scale = it },
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Button(
@@ -77,7 +87,7 @@ fun FlowOfEventsDemo() {
         if (result.isNotEmpty()) {
             Text(
                 text = result,
-                style = MaterialTheme.typography.h3
+                style = MaterialTheme.typography.headlineMedium
             )
         }
     }
@@ -85,15 +95,14 @@ fun FlowOfEventsDemo() {
 
 @Composable
 fun TemperatureTextField(
-    temperature: MutableState<String>,
+    temperature: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     callback: () -> Unit
 ) {
     TextField(
-        value = temperature.value,
-        onValueChange = {
-            temperature.value = it
-        },
+        value = temperature,
+        onValueChange = onValueChange,
         placeholder = {
             Text(text = stringResource(id = R.string.placeholder))
         },
@@ -111,21 +120,20 @@ fun TemperatureTextField(
 
 @Composable
 fun TemperatureScaleButtonGroup(
-    selected: MutableState<Int>,
+    selected: Int,
+    radioButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val sel = selected.value
-    val onClick = { resId: Int -> selected.value = resId }
     Row(modifier = modifier) {
         TemperatureRadioButton(
-            selected = sel == R.string.celsius,
+            selected = selected == R.string.celsius,
             resId = R.string.celsius,
-            onClick = onClick
+            onClick = { radioButtonClicked(R.string.celsius) }
         )
         TemperatureRadioButton(
-            selected = sel == R.string.fahrenheit,
+            selected = selected == R.string.fahrenheit,
             resId = R.string.fahrenheit,
-            onClick = onClick,
+            onClick = { radioButtonClicked(R.string.fahrenheit) },
             modifier = Modifier.padding(start = 16.dp)
         )
     }
