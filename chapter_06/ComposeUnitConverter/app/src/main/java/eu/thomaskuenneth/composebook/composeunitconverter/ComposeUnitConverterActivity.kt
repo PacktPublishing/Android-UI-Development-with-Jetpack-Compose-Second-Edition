@@ -27,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -135,7 +134,7 @@ fun ComposeUnitConverterBottomBar(navController: NavHostController) {
                 },
                 icon = {
                     Icon(
-                        painter = painterResource(id = screen.icon),
+                        imageVector = screen.icon,
                         contentDescription = stringResource(id = screen.label)
                     )
                 },
