@@ -4,7 +4,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
@@ -43,10 +46,28 @@ fun ComposeUnitConverterTheme(
     }
     MaterialTheme(
         colorScheme = colorScheme,
-//        typography = Typography(button = TextStyle(fontSize = 24.sp)),
-//        shapes = Shapes(small = CutCornerShape(8.dp)),
+//        typography = Typography(
+//            labelLarge = MaterialTheme.typography.labelLarge.copy(
+//                fontSize = 22.sp
+//            )
+//        ),
         content = content
     )
+}
+
+@Composable
+@Preview
+fun CutCornerShapeDemo() {
+    MaterialTheme(
+        shapes = Shapes(small = CutCornerShape(8.dp)),
+    ) {
+        Button(
+            onClick = {},
+            shape = MaterialTheme.shapes.small
+        ) {
+            Text(text = "Click me")
+        }
+    }
 }
 
 @Composable

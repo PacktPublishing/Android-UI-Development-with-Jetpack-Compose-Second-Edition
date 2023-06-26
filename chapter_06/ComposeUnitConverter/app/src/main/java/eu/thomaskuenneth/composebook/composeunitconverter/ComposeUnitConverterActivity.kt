@@ -138,7 +138,7 @@ fun ComposeUnitConverterBottomBar(navController: NavHostController) {
                         contentDescription = stringResource(id = screen.label)
                     )
                 },
-                alwaysShowLabel = false
+                alwaysShowLabel = true
             )
         }
     }
