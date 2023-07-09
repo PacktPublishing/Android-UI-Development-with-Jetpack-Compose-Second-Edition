@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComposeUnitConverter">
         <activity
-            android:name="eu.thomaskuenneth.composebook.composeunitconverter.ComposeUnitConverterActivity"
+            android:name=".ComposeUnitConverterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

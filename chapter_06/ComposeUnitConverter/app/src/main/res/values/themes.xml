@@ -1,5 +1,6 @@
 <resources>
+
     <style name="Theme.ComposeUnitConverter" parent="Theme.Material3.DayNight">
-        <item name="colorPrimaryDark">@color/android_green_dark</item>
+        <item name="android:statusBarColor">@color/android_green_dark</item>
     </style>
 </resources>
