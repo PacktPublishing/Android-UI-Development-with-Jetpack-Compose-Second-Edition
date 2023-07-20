@@ -7,6 +7,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
@@ -337,11 +338,14 @@ fun InfiniteRepeatableDemo() {
     val degrees by infiniteTransition.animateFloat(
         initialValue = 0F,
         targetValue = 359F,
-        animationSpec = infiniteRepeatable(animation = keyframes {
-            durationMillis = 1500
-            0F at 0
-            359F at 1500
-        })
+        animationSpec = infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = 1500
+                0F at 0
+                359F at 1500
+            },
+            repeatMode = RepeatMode.Restart
+        )
     )
     Box(
         modifier = Modifier
