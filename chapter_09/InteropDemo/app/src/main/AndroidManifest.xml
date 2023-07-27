@@ -12,7 +12,6 @@
         <activity
             android:name="eu.thomaskuenneth.composebook.interopdemo.ViewActivity"
             android:exported="true"
-            android:label="@string/view_activity"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +20,7 @@
         </activity>
         <activity
             android:name="eu.thomaskuenneth.composebook.interopdemo.ComposeActivity"
-            android:exported="true"
-            android:label="@string/compose_activity" />
+            android:exported="true" />
     </application>
 
 </manifest>
