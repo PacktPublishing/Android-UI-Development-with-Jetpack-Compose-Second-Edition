@@ -14,12 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
@@ -58,7 +58,7 @@ class ZxingDemoActivity : ComponentActivity() {
         }
         barcodeView.decodeContinuous(callback)
         setContent {
-            with(text.collectAsState()) {
+            with(text.collectAsStateWithLifecycle()) {
                 ZxingDemo(
                     root = root,
                     value = value
