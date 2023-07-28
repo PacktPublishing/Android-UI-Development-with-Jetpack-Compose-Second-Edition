@@ -39,6 +39,7 @@ class SimpleInstrumentedTest {
     fun testLetterAfterButtonClickIsB() {
         rule.onNodeWithText("A")
             .performClick()
+        rule.onNode(matcher = hasClickAction())
             .assert(hasText("B"))
     }
 }
