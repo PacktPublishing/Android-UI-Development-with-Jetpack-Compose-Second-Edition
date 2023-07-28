@@ -1,7 +1,10 @@
 package eu.thomaskuenneth.composebook.testinganddebuggingdemo
 
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.BeforeClass
+import org.junit.Test
 
 class SimpleUnitTest {
 
