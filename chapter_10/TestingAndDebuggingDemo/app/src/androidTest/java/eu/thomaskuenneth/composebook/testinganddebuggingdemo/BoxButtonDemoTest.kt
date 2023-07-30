@@ -14,7 +14,6 @@ class BoxButtonDemoTest {
     @get:Rule
     val rule = createComposeRule()
 
-
     @Test
     fun testHasTestTag() {
         rule.setContent {
