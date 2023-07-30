@@ -70,13 +70,13 @@ fun ImageDemo() {
     )
 }
 
-const val TAG1 = "BoxButtonDemo"
 
 val BackgroundColorKey = SemanticsPropertyKey<Color>("BackgroundColor")
 var SemanticsPropertyReceiver.backgroundColor by BackgroundColorKey
 
 val COLOR1 = Color.White
 val COLOR2 = Color.LightGray
+const val TAG1 = "BoxButtonDemo"
 
 @Composable
 fun BoxButtonDemo() {
