@@ -2,6 +2,7 @@ package eu.thomaskuenneth.composebook.testinganddebuggingdemo
 
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertWidthIsEqualTo
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.unit.dp
