@@ -17,7 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.DrawModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -37,6 +39,7 @@ class TestingAndDebuggingDemoActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SimpleButtonDemo()
+//            BoxButtonDemo()
         }
     }
 }
@@ -70,7 +73,6 @@ fun ImageDemo() {
     )
 }
 
-
 val BackgroundColorKey = SemanticsPropertyKey<Color>("BackgroundColor")
 var SemanticsPropertyReceiver.backgroundColor by BackgroundColorKey
 
@@ -85,17 +87,26 @@ fun BoxButtonDemo() {
         modifier = Modifier
             .fillMaxSize()
             .testTag(TAG1)
+            .simpleDebug()
             .semantics { backgroundColor = color }
             .background(color = color),
         contentAlignment = Alignment.Center
     ) {
-        Button(onClick = {
-            color = if (color == COLOR1)
-                COLOR2
-            else
-                COLOR1
-        }) {
+        Button(
+            onClick = {
+                color = if (color == COLOR1)
+                    COLOR2
+                else
+                    COLOR1
+            }) {
             Text(text = stringResource(id = R.string.toggle))
         }
     }
 }
+
+fun Modifier.simpleDebug() = then(object : DrawModifier {
+    override fun ContentDrawScope.draw() {
+        println("width=${size.width}, height=${size.height}")
+        drawContent()
+    }
+})
