@@ -1,6 +1,7 @@
+@file:OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+
 package eu.thomaskuenneth.composebook.windowsizeclassdemo
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -32,12 +33,17 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+
+val LocalWindowSizeClass = compositionLocalOf { WindowSizeClass.calculateFromSize(DpSize.Zero) }
 
 class WindowSizeClassDemoActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +52,11 @@ class WindowSizeClassDemoActivity : ComponentActivity() {
             MaterialTheme(
                 colorScheme = defaultColorScheme()
             ) {
-                WindowSizeClassDemoScreen(
-                    activity = this
-                )
+                CompositionLocalProvider(
+                    LocalWindowSizeClass provides calculateWindowSizeClass(activity = this)
+                ) {
+                    WindowSizeClassDemoScreen()
+                }
             }
         }
     }
@@ -56,7 +64,7 @@ class WindowSizeClassDemoActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WindowSizeClassDemoScreen(activity: Activity) {
+fun WindowSizeClassDemoScreen() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(modifier = Modifier
         .fillMaxSize()
@@ -75,8 +83,7 @@ fun WindowSizeClassDemoScreen(activity: Activity) {
 //        )
         AdaptiveScreen(
             paddingValues = it,
-            list = list,
-            activity = activity
+            list = list
         )
     }
 }
@@ -92,29 +99,6 @@ fun SimpleScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Composable
-fun AdaptiveScreen(
-    paddingValues: PaddingValues,
-    list: List<Int>,
-    activity: Activity
-) {
-    with(calculateWindowSizeClass(activity = activity)) {
-        if (widthSizeClass == WindowWidthSizeClass.Compact) {
-            NumbersList(
-                paddingValues = paddingValues,
-                list = list
-            )
-        } else {
-            NumbersGrid(
-                paddingValues = paddingValues,
-                list = list,
-                windowSizeClass = this
-            )
-        }
-    }
-}
-
 @Composable
 fun NumbersList(
     paddingValues: PaddingValues, list: List<Int>
@@ -127,30 +111,6 @@ fun NumbersList(
             items = list
         ) {
             NumbersItem(it)
-        }
-    }
-}
-
-@Composable
-fun NumbersGrid(
-    paddingValues: PaddingValues,
-    list: List<Int>,
-    windowSizeClass: WindowSizeClass
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(
-            when (windowSizeClass.widthSizeClass) {
-                WindowWidthSizeClass.Medium -> 2
-                else -> 3
-            }
-        ),
-        modifier = Modifier.padding(paddingValues = paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(
-            items = list
-        ) {
-            NumbersItem(number = it)
         }
     }
 }
@@ -183,6 +143,49 @@ fun defaultColorScheme() = with(isSystemInDarkTheme()) {
             dynamicLightColorScheme(context)
         } else {
             lightColorScheme()
+        }
+    }
+}
+
+@Composable
+fun NumbersGrid(
+    paddingValues: PaddingValues,
+    list: List<Int>,
+    columns: Int = 2
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(columns),
+        modifier = Modifier.padding(paddingValues = paddingValues),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(
+            items = list
+        ) {
+            NumbersItem(number = it)
+        }
+    }
+}
+
+@Composable
+fun AdaptiveScreen(
+    paddingValues: PaddingValues,
+    list: List<Int>
+) {
+    with(LocalWindowSizeClass.current) {
+        if (widthSizeClass == WindowWidthSizeClass.Compact) {
+            NumbersList(
+                paddingValues = paddingValues,
+                list = list
+            )
+        } else {
+            NumbersGrid(
+                paddingValues = paddingValues,
+                list = list,
+                columns = when (widthSizeClass) {
+                    WindowWidthSizeClass.Medium -> 2
+                    else -> 3
+                }
+            )
         }
     }
 }
