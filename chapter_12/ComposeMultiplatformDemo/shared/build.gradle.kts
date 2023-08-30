@@ -2,10 +2,11 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 kotlin {
-    androidTarget()
+    android()
 
     jvm("desktop")
 
@@ -22,12 +23,20 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
+            val mokoResourcesVersion = extra["moko.resources.version"] as String
+            val mokoMvvmVersion = extra["moko.mvvm.version"] as String
+
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material)
+                implementation(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+
+                api("dev.icerock.moko:resources:${mokoResourcesVersion}")
+                api("dev.icerock.moko:resources-compose:${mokoResourcesVersion}")
+
+                api("dev.icerock.moko:mvvm-compose:$mokoMvvmVersion")
             }
         }
         val androidMain by getting {
@@ -52,6 +61,10 @@ kotlin {
             }
         }
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "com.myapplication.common"
 }
 
 android {
