@@ -52,7 +52,7 @@ With the following software and hardware list you can run all code files present
 | 1-12        | Android Studio Giraffe or later versions                     | Windows, Mac OS X, and Linux |
 
 ### Related products
-* How to Build Android Apps with Kotlin - Second Edition [[Packt]](https://www.packtpub.com/product/how-to-build-android-apps-with-kotlin-second-edition/9781837634934) [[Amazon]](https://www.amazon.com/dp/1788293770)
+* How to Build Android Apps with Kotlin - Second Edition [[Packt]](https://www.packtpub.com/product/how-to-build-android-apps-with-kotlin-second-edition/9781837634934) [[Amazon]](https://www.amazon.in/How-Build-Android-Apps-Kotlin/dp/1837634939)
 
 * Kickstart Modern Android Development with Jetpack and Kotlin [[Packt]](https://www.packtpub.com/product/kickstart-modern-android-development-with-jetpack-and-kotlin/9781801811071) [[Amazon]](https://www.amazon.in/Kickstart-Modern-Android-Development-Jetpack/dp/1801811075)
 
