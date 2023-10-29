@@ -2,6 +2,8 @@ package eu.thomaskuenneth.composebook.zxingdemo
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 //import android.content.ClipData
 //import android.content.ClipboardManager
 import android.os.Bundle
@@ -32,7 +34,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class ZxingDemoActivity : ComponentActivity() {
 
     private lateinit var barcodeView: DecoratedBarcodeView
-//    private lateinit var clipboardManager: ClipboardManager
+    private lateinit var clipboardManager: ClipboardManager
 
     private val text = MutableStateFlow("")
 
@@ -46,7 +48,7 @@ class ZxingDemoActivity : ComponentActivity() {
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        clipboardManager = getSystemService(android.content.ClipboardManager::class.java)
+        clipboardManager = getSystemService(android.content.ClipboardManager::class.java)
         val root = layoutInflater.inflate(R.layout.layout, null)
         barcodeView = root.findViewById(R.id.barcode_scanner)
         val formats = listOf(BarcodeFormat.QR_CODE, BarcodeFormat.CODE_39)
@@ -58,9 +60,9 @@ class ZxingDemoActivity : ComponentActivity() {
                     return
                 }
                 text.value = result.text
-//                    .also {
-//                        clipboardManager.copyToClipboard(it)
-//                    }
+                    .also {
+                        clipboardManager.copyToClipboard(it)
+                    }
             }
         }
         barcodeView.decodeContinuous(callback)
@@ -88,8 +90,9 @@ class ZxingDemoActivity : ComponentActivity() {
         return barcodeView.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event)
     }
 
-//    private fun ClipboardManager.copyToClipboard(text: String) {
-//        setPrimaryClip(ClipData.newPlainText("simple text", text))    }
+    private fun ClipboardManager.copyToClipboard(text: String) {
+        setPrimaryClip(ClipData.newPlainText("simple text", text))
+    }
 }
 
 @Composable
