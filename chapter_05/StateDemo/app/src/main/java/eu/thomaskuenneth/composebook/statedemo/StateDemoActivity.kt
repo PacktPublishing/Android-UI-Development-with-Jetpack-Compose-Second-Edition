@@ -27,8 +27,8 @@ class StateDemoActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // RememberWithKeyDemo()
-            TextFieldDemo()
+            RememberWithKeyDemo()
+            // TextFieldDemo()
         }
     }
 }
